@@ -1,32 +1,34 @@
-const img = new Image();
+let img = new Image();
 
-//-- Array que almacena números secretos
+//-- Array que almacena el nombre de las imágenes
 const image_sources = [];
+
+src_1 = "capitan_meadows_yosemite_national_park.jpg";
+src_2 = "panoramica-madrid-01.jpg";
+src_3 = "panoramica-madrid-02.jpg";
+src_4 = "panoramica-madrid-03.jpg";
+src_5 = "panoramica-madrid-04.jpg";
+
+//image_sources.push(src_1);
+image_sources.push(src_2);
+image_sources.push(src_3);
+image_sources.push(src_4);
+image_sources.push(src_5);
 
 function get_random_img_source () {
 
-    src_1 = "capitan_meadows_yosemite_national_park.jpg";
-    src_2 = "panoramica-madrid-01.jpg";
-    src_3 = "panoramica-madrid-02.jpg";
-    src_4 = "panoramica-madrid-03.jpg";
-    src_5 = "panoramica-madrid-04.jpg";
+    let max = image_sources.length - 1;
+    let imgPick = Math.floor(Math.random() * max);
 
-    image_sources.push(src_1);
-
-    return image_sources[0];
+    return image_sources[imgPick];
 
 }
 
 // User Variables - customize these to change the image being scrolled, its
 // direction, and the speed.
-//img.src = "capitan_meadows_yosemite_national_park.jpg";
-//img.src = "panoramica-madrid-01.jpg";
-//img.src = "panoramica-madrid-02.jpg";
-//img.src = "panoramica-madrid-03.jpg";
-//img.src = "panoramica-madrid-04.jpg";
-
 img.src = get_random_img_source();
 
+console.log(img.src);
 
 const canvasXSize = 800;
 const canvasYSize = 400;
@@ -43,7 +45,11 @@ let clearX;
 let clearY;
 let ctx;
 
-img.onload = () => {
+// Get canvas context
+ctx = document.getElementById("canvas").getContext("2d");
+
+function set_canvas_image() {
+ 
   imgW = img.width * scale;
   imgH = img.height * scale;
 
@@ -56,12 +62,7 @@ img.onload = () => {
   clearX = Math.max(imgW, canvasXSize);
   clearY = Math.max(imgH, canvasYSize);
 
-  // Get canvas context
-  ctx = document.getElementById("canvas").getContext("2d");
-
-  // Set refresh rate
-  return setInterval(draw, speed);
-};
+}
 
 function draw() {
   ctx.clearRect(0, 0, clearX, clearY); // clear the canvas
@@ -100,4 +101,26 @@ function draw() {
 
   // Amount to move
   x += dx;
+
+  // Encuentra una condición de cambio de imagen
+  //console.log( 'x: ' + x + ' imgW: ' + imgW + ' Math.abs(x): ' + Math.abs(x) );
+  //console.log('x: ' + x + ' dx: ' + dx)
+
+  // Condición de cambio de imagen
+  if ( Math.abs(x) <= dx ) {
+    
+    last_img = img.src;
+    img.src = get_random_img_source();  
+
+    while(last_img == img.src) {
+      img.src = get_random_img_source();
+    }
+
+    set_canvas_image();
+  }
+
 }
+
+set_canvas_image();
+
+setInterval(draw, speed);
