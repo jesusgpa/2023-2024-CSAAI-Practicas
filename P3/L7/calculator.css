@@ -22,6 +22,7 @@
 
 button{
     flex: 1 25%;
+    flex-shrink: 2;
     padding: 15px;
     font-size: 26px;
   } 
