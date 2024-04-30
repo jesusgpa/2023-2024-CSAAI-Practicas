@@ -49,8 +49,8 @@ function crearRedAleatoriaConCongestion(numNodos, numConexiones) {
     for (let i = 0; i < numNodos; i++) {
         x = randomNumber(nodeRadius, (canvas.width - nodeRadius)); // Generar coordenada x aleatoria
         y = randomNumber(nodeRadius, (canvas.height - nodeRadius)); // Generar coordenada y aleatoria
-        //delay = generarRetardo(); // Retardo aleatorio para simular congestión
-        peso = pipeRandomWeight; // El mismo peso para todas las conexiones
+        delay = generarRetardo(); // Retardo aleatorio para simular congestión
+        //peso = pipeRandomWeight; // El mismo peso para todas las conexiones
         nodos.push(new Nodo(i, x, y, delay)); // Generar un nuevo nodo y añadirlo a la lista de nodos de la red
     }
   
@@ -60,7 +60,8 @@ function crearRedAleatoriaConCongestion(numNodos, numConexiones) {
       for (let j = 0; j < numConexiones; j++) {
         pickNode = Math.floor(Math.random() * numNodos);
         nodoAleatorio = nodos[pickNode];
-        peso = Math.random() * 100; // Peso aleatorio para simular la distancia entre nodos
+        //peso = Math.random() * 100; // Peso aleatorio para simular la distancia entre nodos
+        peso = pipeRandomWeight;
         nodoActual.conectar(nodoAleatorio, peso);
       }
     }
